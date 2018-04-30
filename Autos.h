@@ -83,6 +83,7 @@ void Autos::muestra(){
     if (chofer)
         cout << "Tiene chofer" << endl;
     else cout << "No tiene chofer" << endl;
+    cout << endl;
 
 }
 

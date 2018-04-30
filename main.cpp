@@ -66,42 +66,105 @@ if(Reservaciones.is_open())
 }
 else
     cout << "fallo al accedar a db de Reservaciones";
-
+// barrido de reservaciones
 while(Reservaciones >>clave>>idCliente>>dia>>mes>>ano>>dias)
     {
+        if(contReservaciones < 20)
+        {
         Fecha FechaCont(dia,mes,ano);
         Reserva[contReservaciones].setClave(clave);
         Reserva[contReservaciones].setID(idCliente);
         Reserva[contReservaciones].setFechaContrato(FechaCont);
         Reserva[contReservaciones].setDuracion(dias);
         contReservaciones++;
+    }else
+        cout << "se acabo el espacio de reservaciones" << endl;
     }
     Reservaciones.close();
-    desplejarMenu();
+    //barrido de servicios
     while(!Servicios.eof())
     {
-        string todo;
         Servicios >> clave >> Tipo>>CostoXdia;
-        getline(Servicios,todo);
-        cout << todo << endl;
-        int length = todo.length();
+        getline(Servicios,descripcion);
+        int length = descripcion.length();
         //contar espacios en blanco
         int contblanc = 0;
         for(int i = 0; i < length-1; i++)
         {
-            if(todo[i] == ' ')
+            if(descripcion[i] == ' ')
                 contblanc++;
         }
-        for(int i, j = 0; j+1 == contblanc;i++)
+        int posblanco = 0;
+        for(int i = 0, j = 0; i < length-1;i++)
         {
+            if(descripcion[i] == ' ')
+                j++;
+            if(j == contblanc-1)
+            {
+                posblanco = i;
+                break;
+            }
 
         }
-        cout << contblanc << endl;
+        // se separan los bool de chfer y blindado
+        string secundario;
+        secundario = descripcion.substr(posblanco);
+        descripcion.erase(posblanco);
+        secundario.erase(0,1);
+        if(Tipo == 'S' || Tipo == 'M' || Tipo== 'T')
+        {
+            int pos = secundario.find(' ');
+            string Sblindado = secundario.substr(pos+1);
+            secundario.erase(pos);
+            if(Sblindado[0] == '1')
+                blindado = true;
+            else
+                blindado = false;
+            if(secundario[0] == '1')
+                chofer = true;
+            else
+                chofer = false;
+                if(contServicios <6)
+                {
+            Serv[contServicios] = new Autos(clave,Tipo,CostoXdia,descripcion,chofer,blindado);
+            contServicios++;
+                }
+                else
+                    cout << "no hay mas espacio para servicios" << endl;
+        }
+        else
+        {
+            int pos = secundario.find(' ');
+            string terciario = secundario.substr(pos);
+            terciario.erase(0,1);
+            secundario.erase(pos);
+            //conversion de string a integro
+            const char* personas = secundario.c_str();
+            cantidPersonas = atoi(personas);
+
+            const char* extra = terciario.c_str();
+            adicional = atoi(extra);
+            if(contServicios < 6)
+            {
+            Serv[contServicios] = new Aviones(clave,Tipo,CostoXdia,descripcion,cantidPersonas,adicional);
+            contServicios++;
+            }
+                else
+                    cout << "no hay mas espacio para servicios" << endl;
 
 
 
+        }
     }
-
+    //comprobar que todo jale
+    for(int i = 0; i < contServicios; i++)
+    {
+        Serv[i]->muestra();
+    }
+    for(int i = 0; i < contReservaciones; i++)
+    {
+        cout << Reserva[i].getClave() << endl;
+    }
 
     return 0;
 }

@@ -96,7 +96,7 @@ void Aviones::muestra(){
     cout << "Costo por dia: " << getCostoXDia() << endl;
     cout << "Descripcion: " << getDescripcion() << endl;
     cout << "Cantidad de personas: " << getCantPersonas() << endl;
-    cout << "Adicionales: " << getAdicional() << endl;
+    cout << "Adicionales: " << getAdicional() << endl << endl;
 
 }
 
