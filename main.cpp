@@ -15,6 +15,17 @@
 #include "Autos.h"
 #include "Aviones.h"
 
+void desplejarMenu()
+{
+    cout << "--------------------------------MENU------------------------------------------" << endl;
+    cout << "a) consultar Servicios" << endl;
+    cout << "b)Consultar reservaciones" << endl;
+    cout << "c) Consulatr las reservas de un servicio dado" << endl;
+    cout << "d) Consultar reservas de una fecha especifica " << endl;
+    cout << "e) hacer una reservacion" << endl;
+    cout << "f) Terminar" << endl;
+}
+
 using namespace std;
 int main() {
 //OBJETOS
@@ -44,21 +55,55 @@ Reservaciones.open("Reserva.txt");
 Servicios.open("Servicio.txt");
 if(Servicios.is_open())
 {
-    cout << "se abrio "<< endl;
+    cout << "Se accedio a la db de Servicios Correctamente "<< endl;
 }
-    while(Reservaciones >>clave>>idCliente>>dia>>mes>>ano>>dias)
+else
+    cout << "fallo al accedar a db de servicios";
+if(Reservaciones.is_open())
+{
+    cout << "Se accedio a la db de Reservaciones Correctamente "<< endl;
+
+}
+else
+    cout << "fallo al accedar a db de Reservaciones";
+
+while(Reservaciones >>clave>>idCliente>>dia>>mes>>ano>>dias)
     {
-        //convertir a itnregro
         Fecha FechaCont(dia,mes,ano);
         Reserva[contReservaciones].setClave(clave);
         Reserva[contReservaciones].setID(idCliente);
         Reserva[contReservaciones].setFechaContrato(FechaCont);
         Reserva[contReservaciones].setDuracion(dias);
-
         contReservaciones++;
+    }
+    Reservaciones.close();
+    desplejarMenu();
+    while(!Servicios.eof())
+    {
+        string todo;
+        Servicios >> clave >> Tipo>>CostoXdia;
+        getline(Servicios,todo);
+        cout << todo << endl;
+        int length = todo.length();
+        //contar espacios en blanco
+        int contblanc = 0;
+        for(int i = 0; i < length-1; i++)
+        {
+            if(todo[i] == ' ')
+                contblanc++;
+        }
+        for(int i, j = 0; j+1 == contblanc;i++)
+        {
+
+        }
+        cout << contblanc << endl;
+
+
+
     }
 
 
-    Servicios.close();
     return 0;
 }
+
+
