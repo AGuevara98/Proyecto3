@@ -76,6 +76,7 @@ while(Reservaciones >>clave>>idCliente>>dia>>mes>>ano>>dias)
         Reserva[contReservaciones].setID(idCliente);
         Reserva[contReservaciones].setFechaContrato(FechaCont);
         Reserva[contReservaciones].setDuracion(dias);
+
         contReservaciones++;
     }else
         cout << "se acabo el espacio de reservaciones" << endl;
@@ -156,15 +157,7 @@ while(Reservaciones >>clave>>idCliente>>dia>>mes>>ano>>dias)
 
         }
     }
-    //comprobar que todo jale
-    for(int i = 0; i < contServicios; i++)
-    {
-        Serv[i]->muestra();
-    }
-    for(int i = 0; i < contReservaciones; i++)
-    {
-        cout << Reserva[i].getClave() << endl;
-    }
+
 
     return 0;
 }
